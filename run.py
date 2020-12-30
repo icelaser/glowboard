@@ -14,10 +14,21 @@ pixels = Adafruit_WS2801.WS2801Pixels(PIXEL_COUNT, spi=SPI.SpiDev(0, 0), gpio=GP
 
 # Hier sind Methoden definiert, die unten im Main benutzt werden
 
-# Methode: initialisiert die LED's mit allen Möglichen Farben (Regenbogen)
+# Methode: Schliefenfunktion, um zwischen verschiedenen Farbtoenen zu interpolieren
+def schliefe(pos):
+    if pos < 85:
+        return Adafruit_WS2801.RGB_to_color(pos * 3, 255 - pos * 3, 0)
+    elif pos < 170:
+        pos -= 85
+        return Adafruit_WS2801.RGB_to_color(255 - pos * 3, 0, pos * 3)
+    else:
+        pos -= 170
+        return Adafruit_WS2801.RGB_to_color(0, pos * 3, 255 - pos * 3)
+
+# Methode: initialisiert die LED's mit allen Moeglichen Farben (Regenbogen)
 def rainbow_start(pixels, wait=0.1):
     for i in range(pixels.count()):
-        pixels.set_pixel(i, wheel(((i * 256 // pixels.count())) % 256) )
+        pixels.set_pixel(i, schliefe(((i * 256 // pixels.count())) % 256) )
         pixels.show()
         if wait > 0:
             time.sleep(wait)
@@ -26,7 +37,7 @@ def rainbow_start(pixels, wait=0.1):
 def rainbow_run(pixels, wait=0.005):
     for j in range(256):
         for i in range(pixels.count()):
-            pixels.set_pixel(i, wheel(((i * 256 // pixels.count()) + j) % 256) )
+            pixels.set_pixel(i, schliefe(((i * 256 // pixels.count()) + j) % 256) )
         pixels.show()
         if wait > 0:
             time.sleep(wait)
@@ -53,7 +64,7 @@ def color_cycle(pixels, wait=0.05):
         if wait > 0:
             time.sleep(wait)
 
-# Main Mehotde: In welcher Reihenfolge die Methoden ausgeführt werden sollen
+# Main Mehotde: In welcher Reihenfolge die Methoden ausgefuehrt werden sollen
 if __name__ == "__main__":
     while True:
         pixels.clear()
