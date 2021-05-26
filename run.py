@@ -59,7 +59,7 @@ def go_off(pixels, wait=0.01, step=1):
 def color_cycle(pixels, wait=0.05):
     for j in range(256):
         for i in range(pixels.count()):
-            pixels.set_pixel(i, wheel(((256 // pixels.count() + j)) % 256) )
+            pixels.set_pixel(i, schliefe(((256 // pixels.count() + j)) % 256) )
         pixels.show()
         if wait > 0:
             time.sleep(wait)
