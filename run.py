@@ -73,6 +73,7 @@ if __name__ == "__main__":
         rainbow_run(pixels, wait=0.01)
         rainbow_run(pixels, wait=0.01)
         rainbow_run(pixels, wait=0.01)
-        go_off(pixels)
+        rainbow_run(pixels, wait=0.01)
+        #go_off(pixels)
         color_cycle(pixels)
         go_off(pixels)
